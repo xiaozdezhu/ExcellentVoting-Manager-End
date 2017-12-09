@@ -1,3 +1,2 @@
-# Vote-BackEnd
-Back end of excellent employee voting system
-Based on playFramework
+# Vote-ManagerEnd
+This is a web application based on Play Framework for Simu Design Company managers to manage candidates and analyze voting results.
