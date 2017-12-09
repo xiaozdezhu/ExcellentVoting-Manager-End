@@ -1,0 +1,338 @@
+#{extends 'main.html' /}
+#{set title:'优秀员工评选' /}
+
+#{set 'moreMeta'}
+<meta name="description" content="优秀员工评选"/>
+<style type="text/css">
+     .delete{float:right;}
+     .delete:hover{text-decoration:underline;}
+</style>
+#{/set}
+
+#{set 'moreStyles'}
+
+#{/set}
+
+#{set 'moreScripts'}
+
+#{/set}
+
+
+#{set 'moreScripts'}
+
+#{/set}
+
+
+*{=========================================== 菜单 ========================================================}*
+#{set 'menu'}
+%{
+for (department in departments) {
+    if (department.id == currentDepart.id) {
+}%
+
+<li class="highlight hover active">
+    <a onclick="findDepartment(${department.id})">
+        <i class="menu-icon fa fa-tag"></i>
+        <span class="menu-text">${department.name}</span>
+        <span class="delete" onclick="deleteDepartment(${department.id},${currentDepart.id},event)">删除</span>
+    </a>
+    <b class="arrow"></b>
+</li>
+
+%{
+    } else {
+}%
+<li class="highlight hover">
+    <a onclick="findDepartment(${department.id})">
+        <i class="menu-icon fa fa-tag"></i>
+        <span class="menu-text">${department.name}</span>
+        <span class="delete" onclick="deleteDepartment(${department.id},${currentDepart.id},event)">删除</span>
+    </a>
+    <b class="arrow"></b>
+</li>
+%{
+    }
+}
+}%
+<li class="highlight hover">
+    <a onclick="addDepartment()">
+        <i class="menu-icon fa fa-plus-circle"></i>
+        <span class="menu-text">添加部门</span>
+    </a>
+    <b class="arrow"></b>
+</li>
+
+#{/set}
+
+
+*{=========================================== 面包屑 ========================================================}*
+#{set 'breadcrumbs' }
+<div class="breadcrumbs" id="breadcrumbs">
+    <script type="text/javascript">
+        try {
+            ace.settings.check('breadcrumbs', 'fixed')
+        } catch (e) {
+        }
+    </script>
+    <ul class="breadcrumb">
+        <li class="active">
+            <i class="ace-icon fa fa-home home-icon"></i>
+        </li>
+        <li>
+        ${currentDepart.name}
+        </li>
+    </ul>
+
+</div>
+#{/set}
+
+*{============================================ 主内容 =======================================================}*
+#{set 'content'}
+<div class="row">
+    <div class="col-xs-12">
+        <div class="table-header center" >
+            <label id="department-employee-title" departmentId="${currentDepart.id}" class="center bigger-150">
+                <strong>${currentDepart.name}-候选优秀员工</strong>
+            </label>
+            <label class="btn  btn-success pull-right center" onclick="showStatisticalTable(${currentDepart.id})">
+                <i class="ace-icon fa fa-bar-chart"></i>&nbsp;<small>统计</small> &nbsp;
+            </label>
+            <label class="btn  btn-info pull-right center" onclick="addEmployee(${currentDepart.id})">
+                <i class="ace-icon fa fa-plus"></i>&nbsp;<small>添加候选人</small> &nbsp;
+            </label>
+        </div>
+        <div class="dataTables_wrapper form-inline no-footer">
+            <div class="row">
+                <div id="status-select-btn" class="col-xs-12">
+                    <stron>性别:</stron>
+                    <select id="employee_gender_select" name="employee_gender_select" class="input-small">
+                        <option value="-1">全部</option>
+                        <option value="1">男</option>
+                        <option value="2">女</option>
+                    </select>&nbsp;&nbsp;&nbsp;&nbsp;
+                    审核状态:
+                    <select id="employee_status_select" name="employee_status_select" class="input-small">
+                        <option value="-1">全部</option>
+                        <option value="0">未审核</option>
+                        <option value="1">审核通过</option>
+                        <option value="2">审核未通过</option>
+                    </select>&nbsp;&nbsp;&nbsp;&nbsp;
+                    票数排序:
+                    <select id="employee_vote_select" name="employee_vote_select" class="input-small">
+                        <option value="-1">不排序</option>
+                        <option value="0">高——>低</option>
+                        <option value="1">低——>高</option>
+                    </select>&nbsp;&nbsp;&nbsp;&nbsp;
+                    <div class="hr hr-dotted"></div>
+                </div>
+                <div class="col-xs-6">
+                    <div class="dataTables_length">
+                        <label>
+                            每页显示:
+                            <select id="employee-table-select-pagesize" name="employee-table-select-pagesize" class="form-control input-sm">
+                                <option value="5" selected="selected">5</option>
+                                <option value="10">10</option>
+                                <option value="15">15</option>
+                                <option value="20">20</option>
+                                <option value="25">25</option>
+                                <option value="30">30</option>
+                                <option value="40">40</option>
+                                <option value="50">50</option>
+                                <option value="50">60</option>
+                            </select>
+                            条记录
+                        </label>
+                    </div>
+                </div>
+                <div class="col-xs-6">
+                    <div class="dataTables_filter">
+                        <label><i class="ace-icon fa fa-search nav-search-icon"></i></label>
+                        <input id="employee-search-input" type="search" class="form-control input-sm" value="" placeholder="" aria-controls="dynamic-table"/>
+                    </div>
+                </div>
+            </div>
+            <table id="employee-table" class="table table-striped table-bordered table-hover dataTable no-footer DTTT_selectable">
+                <thead>
+                <tr>
+                    <th class="center">姓名</th>
+                    <th class="center">照片</th>
+                    <th class="center">性别</th>
+                    <th class="center">职位</th>
+                    <th class="center">个人介绍</th>
+                    <th class="center">票数</th>
+                    <th class="center">状态</th>
+                    <th>
+
+                    </th>
+                </tr>
+                </thead>
+                <tbody id="employee-table-body">
+
+                </tbody>
+            </table>
+            <div class="row">
+                <div class="col-xs-6">
+                    <div class="dataTables_length">
+                        <label class="bigger-120">总共有 <big id="employee-total">0</big> 条记录</label>
+                    </div>
+                </div>
+                <div class="col-xs-6">
+                    <div class="dataTables_paginate paging_simple_numbers">
+                        <ul id="employee-table-paginate" class="pagination">
+                            <li class="paginate_button previous">
+                                <a><i class="ace-icon fa fa-angle-double-left"></i></a>
+                            </li>
+                            <li class="paginate_button active" pn="1">
+                                <a>1</a>
+                            </li>
+                            <li class="paginate_button next">
+                                <a><i class="ace-icon fa fa-angle-double-right"></i></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+#{/set}
+
+
+
+*{============================================== JS =====================================================}*
+#{set 'scripts'}
+<script type="text/javascript">
+    jQuery(function($){
+        //
+        $('[data-rel=tooltip]').tooltip();
+
+        var pageSize = $('#employee-table-select-pagesize').val();
+        var pageNum = 1;
+        flushEmployeeTableData(pageSize, pageNum, "");
+    })
+
+</script>
+
+<script type="text/javascript">
+    function addEmployee(departmentId) {
+        console.log("Add," + departmentId);
+        location.href = "/employee/add/"+departmentId
+    }
+
+    function showStatisticalTable(departmentId) {
+        location.href = "/department/chart/"+departmentId
+    }
+
+    function findDepartment(departmentId){
+        location.href = "/department/"+departmentId
+    }
+
+    function deleteDepartment(selectDepartmentId,currentDepartmentId,event){
+
+        bootbox.confirm({
+        buttons: {
+            "cancel" : {
+                "label" : "取消",
+                "className" : "btn-sm",
+            },
+            "confirm": {
+                "label": "确定",
+                "className" : "btn-sm btn-success",
+            }
+        },
+        message: "<strong><i class='ace-icon fa fa-warning yellow bigger-200'></i>&nbsp;确定要删除该部门吗?该部门的候选人信息也会一并删除。</strong>",
+        callback: function(result) {
+            if (result) {
+                $.ajax({
+                    type : "POST",
+                    url: "/department/delete/"+selectDepartmentId,
+                    contentType: "application/json",
+                    dataType: "json",
+                    data: "",
+                    success: function(response) {
+                        console.log(response);
+                        bootbox.alert({
+                            message: "<strong><i class='ace-icon fa fa-check bigger-200 green'></i>&nbsp;删除成功!</strong>",
+                            callback: function() {
+                                if(selectDepartmentId===currentDepartmentId){
+                                    location.href = "/department/"+"0";
+                                }
+                                else{
+                                    location.href = "/department/"+currentDepartmentId;
+                                }
+                            }
+                        });
+                    },
+                    error: function(XMLHttpRequest, textStatus, errorThrown){
+                        bootbox.dialog({
+                            message: "<strong><i class='ace-icon fa fa-warning yellow bigger-200'></i>&nbsp;删除失败!</strong>",
+                        });
+                    }
+                });
+            }
+        }
+    });
+
+    var e = window.event || event;
+    if ( e.stopPropagation ){
+        e.stopPropagation();
+    }else{
+        window.event.cancelBubble = true;
+    }
+
+
+
+    }
+
+
+    function addDepartment(){
+        var temp = "aaaaaaa";
+        bootbox.prompt(
+
+        "<strong>请输入添加的部门名称</strong>",
+
+        function(result) {
+            if (result) {
+                $.ajax({
+                    type : "POST",
+                    url: "/department/add/"+result,
+                    contentType: "application/json",
+                    dataType: "json",
+                    data: {"temp":temp},
+                    success: function(response) {
+                        console.log(response);
+                        bootbox.alert({
+                            message: "<strong><i class='ace-icon fa fa-check bigger-200 green'></i>&nbsp;添加成功!</strong>",
+                            callback: function() {
+                                location.href = "/department/"+response["departmentId"];
+                            }
+                        });
+                    },
+                    error: function(XMLHttpRequest, textStatus, errorThrown){
+                    console.log(XMLHttpRequest);
+                    console.log(textStatus);
+                    console.log(errorThrown);
+                        bootbox.dialog({
+                            message: "<strong><i class='ace-icon fa fa-warning yellow bigger-200'></i>&nbsp;添加失败!</strong>",
+                        });
+                    }
+                });
+            }
+
+            <!--else{-->
+                <!--bootbox.dialog({-->
+                    <!--message: "<strong><i class='ace-icon fa fa-warning yellow bigger-200'></i>&nbsp;不能为空!</strong>",-->
+                <!--});-->
+            <!--}-->
+
+        }
+
+        );
+
+    }
+</script>
+
+<script src="@{'/public/javascripts/department/employee_list.js'}"></script>
+
+#{/set}

@@ -1,0 +1,300 @@
+#{extends 'main.html' /}
+#{set title:'优秀员工评选' /}
+
+#{set 'moreMeta'}
+<meta name="description" content="优秀员工评选"/>
+#{/set}
+
+#{set 'moreStyles'}
+
+#{/set}
+
+#{set 'moreScripts'}
+
+#{/set}
+
+
+#{set 'moreScripts'}
+
+#{/set}
+
+
+*{=========================================== 菜单 ========================================================}*
+#{set 'menu'}
+%{
+for (department in departments) {
+if (department.id == currentDepart.id) {
+}%
+
+<li class="highlight hover active">
+    <a href="/department/${department.id}">
+        <i class="menu-icon fa fa-tag"></i>
+        <span class="menu-text">${department.name}</span>
+    </a>
+    <b class="arrow"></b>
+</li>
+
+%{
+} else {
+}%
+<li class="highlight hover">
+    <a href="/department/${department.id}">
+        <i class="menu-icon fa fa-tag"></i>
+        <span class="menu-text">${department.name}</span>
+    </a>
+    <b class="arrow"></b>
+</li>
+%{
+}
+}
+}%
+<li class="highlight hover">
+    <a href="/department/add">
+        <i class="menu-icon fa fa-plus-circle"></i>
+        <span class="menu-text">添加部门</span>
+    </a>
+    <b class="arrow"></b>
+</li>
+
+#{/set}
+
+
+*{=========================================== 面包屑 ========================================================}*
+#{set 'breadcrumbs' }
+<div class="breadcrumbs" id="breadcrumbs">
+    <script type="text/javascript">
+        try {
+            ace.settings.check('breadcrumbs', 'fixed')
+        } catch (e) {
+        }
+    </script>
+    <ul class="breadcrumb">
+        <li class="active">
+            <i class="ace-icon fa fa-home home-icon"></i>
+        </li>
+        <li>
+        ${currentDepart.name}
+        </li>
+    </ul>
+
+</div>
+#{/set}
+
+*{============================================ 主内容 =======================================================}*
+#{set 'content'}
+<div class="row">
+    <div class="col-xs-12">
+        <div class="row">
+            <h2 class="lighter block dark center">${currentDepart.name} 添加候选人</h2>
+            <hr class="space-1"/>
+            <form id="employee-form" class="form-horizontal" style="display: block">
+                <div class="form-group" style="display: none;">
+                    <label class="control-label col-sm-4 no-padding-right">序号</label>
+                    <div class="col-sm-8">
+                        <div class="clearfix">
+                            <input type="text" id="employee_id" name="employee_id"  value="0"  class="col-sm-6" readonly="readonly"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group" style="display: none;">
+                    <label class="control-label col-sm-4 no-padding-right">部门序号</label>
+                    <div class="col-sm-8">
+                        <div class="clearfix">
+                            <input type="text" id="department_id" name="department_id"  value="${currentDepart.id}"  class="col-sm-6" readonly="readonly"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-4 no-padding-right">
+                        <span style="color: red;">* &nbsp;</span>
+                        姓名
+                    </label>
+                    <div class="col-sm-8">
+                        <div class="clearfix">
+                            <input type="text" id="employee_name" name="employee_name"  class="col-sm-4"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-4 no-padding-right">
+                        <span style="color: red;">* &nbsp;</span>
+                        照片:
+                    </label>
+                    <div class="col-sm-8">
+                        <div class="col-sm-4">
+                            <input type="file" id="employee_avatar" name="employee_avatar" />
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-4 no-padding-right">
+                        <span style="color: red;">* &nbsp;</span>
+                        性别:
+                    </label>
+                    <div class="col-sm-8">
+                        <select id="employee_gender" name="employee_gender" class="input-medium">
+                            <option value="1">男</option>
+                            <option value="2">女</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-4 no-padding-right">
+                        <span style="color: red;">* &nbsp;</span>
+                        职位
+                    </label>
+                    <div class="col-sm-8">
+                        <div class="clearfix">
+                            <input type="text" id="employee_position" name="employee_position"  class="col-sm-4"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-4 no-padding-right">
+                        <span style="color: red;">* &nbsp;</span>
+                        个人介绍
+                    </label>
+                    <div class="col-sm-8">
+                        <div class="clearfix">
+                            <textarea id="employee_description" name="employee_description" class="input-xlarge autosize-transition"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-4 no-padding-right">
+                        <span style="color: red;">* &nbsp;</span>
+                        票数:
+                    </label>
+                    <div class="col-sm-8">
+                        <div class="input-group col-sm-2">
+                            <input type="text" id="employee_vote" name="employee_vote" value="0" class="spinbox-input form-control text-center "/>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-4 no-padding-right">
+                        <span style="color: red;">* &nbsp;</span>
+                    *{状态:}*
+                    </label>
+                    <div class="col-sm-8">
+                        <div>
+                            <label class="tooltip-info" data-rel="tooltip" title="未审核" data-placement="bottom">
+                                <input name="employee_status" value="0" type="radio" class="ace"/>
+                                <span class="lbl">&nbsp;&nbsp;未审核&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                            </label>
+                            <label class="tooltip-success" data-rel="tooltip" title="审核通过" data-placement="bottom">
+                                <input name="employee_status" value="1" type="radio" class="ace" checked="checked"/>
+                                <span class="lbl">&nbsp;&nbsp;审核通过</span>
+                            </label>
+                            <label class="tooltip-error" data-rel="tooltip" title="审核未通过" data-placement="bottom">
+                                <input name="employee_status" value="2" type="radio" class="ace" />
+                                <span class="lbl">&nbsp;&nbsp;审核未通过</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="hr hr-dotted"></div>
+
+                <div class="center">
+                    <button id="employee-info-save-btn" class="btn btn-white btn-info btn-bold">
+                        <i class="ace-icon fa fa-floppy-o bigger-100 blue"> 保存</i>
+                    </button>
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+</div>
+
+#{/set}
+
+
+
+*{============================================== JS =====================================================}*
+#{set 'scripts'}
+<script type="text/javascript">
+    jQuery(function($){
+        //
+        $('[data-rel=tooltip]').tooltip();
+
+
+        $('#employee-form').validate({
+            errorElement: 'div',
+            errorClass: 'help-block',
+            focusInvalid: false,
+            ignore: "",
+            rules: {
+                employee_name: {
+                    required: true,
+                    maxlength: 10,
+                },
+                employee_avatar: {
+                    required: true,
+                },
+                employee_gender: {
+                    required: true,
+                },
+                employee_position: {
+                    required: true,
+                    maxlength: 30,
+                },
+                employee_description: {
+                    required: true,
+                    maxlength: 200,
+                },
+            },
+            messages: {
+                employee_name: {
+                    required: "必填",
+                    maxlength: "过长",
+                },
+                employee_avatar: {
+                    required: "必填",
+                },
+                employee_gender: {
+                    required: "必填",
+                },
+                employee_position: {
+                    required: "必填",
+                    maxlength: "过长",
+                },
+                employee_description: {
+                    required: "必填",
+                    maxlength: "过长",
+                },
+            },
+            highlight: function (e) {
+                $(e).closest('.form-group').removeClass('has-info').addClass('has-error');
+            },
+            success: function (e) {
+                $(e).closest('.form-group').removeClass('has-error');//.addClass('has-info');
+                $(e).remove();
+            },
+            errorPlacement: function (error, element) {
+                if(element.is('input[type=checkbox]') || element.is('input[type=radio]')) {
+                    var controls = element.closest('div[class*="col-"]');
+                    if(controls.find(':checkbox,:radio').length > 1) controls.append(error);
+                    else error.insertAfter(element.nextAll('.lbl:eq(0)').eq(0));
+                }
+                else error.insertAfter(element.parent());
+            },
+            submitHandler: function (form) {
+            },
+            invalidHandler: function (form) {
+            }
+        });
+
+    })
+
+</script>
+
+<script type="text/javascript">
+
+</script>
+
+<script src="@{'/public/javascripts/employee/employee_edit.js'}"></script>
+
+#{/set}

@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <link rel="shortcut icon" type="image/png" href="@{'/public/images/toupiao.png'}">
+
+    <title>#{get 'title' /}</title>
+
+*{meta}*
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+#{get 'moreMeta' /}
+
+*{CSS}*
+    <link rel="stylesheet" media="screen" href="@{'/public/stylesheets/main.css'}">
+*{ace-css}*
+    <link rel="stylesheet" href="@{'/public/ace/css/bootstrap.css'}"/>
+    <link rel="stylesheet" href="@{'/public/ace/css/font-awesome.css'}"/>
+    <link rel="stylesheet" href="@{'/public/ace/css/ace-fonts.css'}"/>
+    <link rel="stylesheet" href="@{'/public/ace/css/ace.css'}" class="ace-main-stylesheet" id="main-ace-style"/>
+    <link rel="stylesheet" href="@{'/public/ace/css/jquery-ui.custom.css'}" />
+    <link rel="stylesheet" href="@{'/public/ace/css/jquery.gritter.css'}" />
+    <link rel="stylesheet" href="@{'/public/ace/css/chosen.css'}" />
+    <link rel="stylesheet" href="@{'/public/ace/css/datepicker.css'}" />
+    <link rel="stylesheet" href="@{'/public/ace/css/bootstrap-timepicker.css'}" />
+    <link rel="stylesheet" href="@{'/public/ace/css/daterangepicker.css'}" />
+    <link rel="stylesheet" href="@{'/public/ace/css/bootstrap-datetimepicker.css'}" />
+    <link rel="stylesheet" href="@{'/public/ace/css/colorpicker.css'}" />
+    <link rel="stylesheet" href="@{'/public/ace/css/fullcalendar.css'}" />
+    <link rel="stylesheet" href="@{'/public/ace/css/dropzone.css'}" />
+    <link rel="stylesheet" href="@{'/public/ace/css/colorbox.css'}" />
+
+#{get 'moreStyles' /}
+
+*{JS}*
+    <!-- ace scripts -->
+    <script src="@{'/public/ace/js/jquery.js'}"></script>
+    <script src="@{'/public/ace/js/ace-extra.js'}"></script>
+    <script src="@{'/public/ace/js/bootstrap.js'}"></script>
+    <!-- page specific plugin scripts -->
+    <script src="@{'/public/ace/js/ace/elements.scroller.js'}"></script>
+    <script src="@{'/public/ace/js/ace/elements.colorpicker.js'}"></script>
+    <script src="@{'/public/ace/js/ace/elements.fileinput.js'}"></script>
+    <script src="@{'/public/ace/js/ace/elements.typeahead.js'}"></script>
+    <script src="@{'/public/ace/js/ace/elements.wysiwyg.js'}"></script>
+    <script src="@{'/public/ace/js/ace/elements.spinner.js'}"></script>
+    <script src="@{'/public/ace/js/ace/elements.treeview.js'}"></script>
+    <script src="@{'/public/ace/js/ace/elements.wizard.js'}"></script>
+    <script src="@{'/public/ace/js/ace/elements.aside.js'}"></script>
+    <script src="@{'/public/ace/js/ace/ace.js'}"></script>
+    <script src="@{'/public/ace/js/ace/ace.ajax-content.js'}"></script>
+    <script src="@{'/public/ace/js/ace/ace.touch-drag.js'}"></script>
+    <script src="@{'/public/ace/js/ace/ace.sidebar.js'}"></script>
+    <script src="@{'/public/ace/js/ace/ace.sidebar-scroll-1.js'}"></script>
+    <script src="@{'/public/ace/js/ace/ace.submenu-hover.js'}"></script>
+    <script src="@{'/public/ace/js/ace/ace.widget-box.js'}"></script>
+    <script src="@{'/public/ace/js/ace/ace.settings.js'}"></script>
+    <script src="@{'/public/ace/js/ace/ace.settings-rtl.js'}"></script>
+    <script src="@{'/public/ace/js/ace/ace.settings-skin.js'}"></script>
+    <script src="@{'/public/ace/js/ace/ace.widget-on-reload.js'}"></script>
+    <script src="@{'/public/ace/js/ace/ace.searchbox-autocomplete.js'}"></script>
+    <script src="@{'/public/ace/js/jquery-ui.custom.js'}"></script>
+    <script src="@{'/public/ace/js/jquery.ui.touch-punch.js'}"></script>
+    <script src="@{'/public/ace/js/jquery.easypiechart.js'}"></script>
+    <script src="@{'/public/ace/js/jquery.gritter.js'}"></script>
+    <script src="@{'/public/ace/js/spin.js'}"></script>
+    <script src="@{'/public/ace/js/fuelux/fuelux.wizard.js'}"></script>
+    <script src="@{'/public/ace/js/jquery.validate.js'}"></script>
+    <script src="@{'/public/ace/js/additional-methods.js'}"></script>
+    <script src="@{'/public/ace/js/jquery.maskedinput.js'}"></script>
+    <script src="@{'/public/ace/js/select2.js'}"></script>
+    <script src="@{'/public/ace/js/dataTables/jquery.dataTables.js'}"></script>
+    <script src="@{'/public/ace/js/dataTables/jquery.dataTables.bootstrap.js'}"></script>
+    <script src="@{'/public/ace/js/dataTables/extensions/TableTools/js/dataTables.tableTools.js'}"></script>
+    <script src="@{'/public/ace/js/dataTables/extensions/ColVis/js/dataTables.colVis.js'}"></script>
+    <script src="@{'/public/ace/js/jquery.bootstrap-duallistbox.js'}"></script>
+    <script src="@{'/public/ace/js/jquery.raty.js'}"></script>
+    <script src="@{'/public/ace/js/bootstrap-multiselect.js'}"></script>
+    <script src="@{'/public/ace/js/select2.js'}"></script>
+    <script src="@{'/public/ace/js/typeahead.jquery.js'}"></script>
+    <script src="@{'/public/ace/js/chosen.jquery.js'}"></script>
+    <script src="@{'/public/ace/js/fuelux/fuelux.spinner.js'}"></script>
+    <script src="@{'/public/ace/js/date-time/bootstrap-datepicker.js'}"></script>
+    <script src="@{'/public/ace/js/date-time/bootstrap-timepicker.js'}"></script>
+    <script src="@{'/public/ace/js/date-time/moment.js'}"></script>
+    <script src="@{'/public/ace/js/date-time/daterangepicker.js'}"></script>
+    <script src="@{'/public/ace/js/date-time/bootstrap-datetimepicker.js'}"></script>
+    <script src="@{'/public/ace/js/bootstrap-colorpicker.js'}"></script>
+    <script src="@{'/public/ace/js/jquery.knob.js'}"></script>
+    <script src="@{'/public/ace/js/jquery.autosize.js'}"></script>
+    <script src="@{'/public/ace/js/jquery.inputlimiter.1.3.1.js'}"></script>
+    <script src="@{'/public/ace/js/jquery.maskedinput.js'}"></script>
+    <script src="@{'/public/ace/js/bootstrap-tag.js'}"></script>
+    <script src="@{'/public/ace/js/fullcalendar.js'}"></script>
+    <script src="@{'/public/ace/js/bootbox.js'}"></script>
+    <script src="@{'/public/ace/js/dropzone.js'}"></script>
+    <script src="@{'/public/ace/js/jquery.colorbox.js'}"></script>
+    <script src="@{'/public/ace/js/jquery.ui.touch-punch.js'}"></script>
+
+    <script src="@{'/public/javascripts/echarts.min.js'}"></script>
+
+
+    <script src="@{'/public/javascripts/utils.js'}"></script>
+#{get 'moreScripts' /}
+
+</head>
+
+<body class="no-skin">
+
+*{头部信息-start}*
+<div id="navbar" class="navbar navbar-default">
+    <script type="text/javascript">
+        try {
+            ace.settings.check('navbar', 'fixed')
+        } catch (e) {
+        }
+    </script>
+    <div class="navbar-container" id="navbar-container">
+        <div class="navbar-header pull-left">
+            <a href="/" class="navbar-brand">
+                <small>
+                    <i class="fa fa-home"></i> 思目投票
+                </small>
+            </a>
+        </div>
+
+        <!-- #section:basics/navbar.dropdown -->
+        <div class="navbar-buttons navbar-header pull-right" role="navigation">
+            <ul class="nav ace-nav">
+            *{导航任务（测试:暂不用）}*
+                <li class="green">
+                    <a href="/to/export/excel" class="tooltip-success" data-rel="tooltip" data-placement="bottom" title="点击生成Excel表">
+                        <i class="ace-icon fa fa-file-excel-o"></i>
+                    </a>
+                </li>
+                <li class="grey">
+                    <a href="/public/download/votes.xls"  class="tooltip-inner" data-rel="tooltip" data-placement="bottom" title="点击下载Excel表">
+                        <i class="ace-icon fa fa-download"></i>
+                    </a>
+                </li>
+            *{导航通知（测试:暂不用）}*
+            *{导航消息（测试:暂不用）}*
+            *{个人信息    }*
+            *{个人信息    }*
+                <!-- #section:basics/navbar.user_menu -->
+                <li class="light-blue">
+                    <a data-toggle="dropdown" href="#" class="dropdown-toggle">
+                        <img class="nav-user-photo" src="/public/ace/avatars/avatar5.png" alt="Jason's Photo"/>
+                        <span class="user-info">
+                            <small> Hi :  </small> ${session.get("username")}
+                        </span>
+                        <i class="ace-icon fa fa-caret-down"></i>
+                    </a>
+                    <ul class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
+                        <li>
+                            <a href="#settings">
+                                <i class="ace-icon fa fa-cog"></i>
+                                设置
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#profile">
+                                <i class="ace-icon fa fa-user"></i>
+                                个人
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="/logout">
+                                <i class="ace-icon fa fa-power-off"></i>
+                                退出
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <!-- /section:basics/navbar.user_menu -->
+            </ul>
+        </div>
+        <!-- /section:basics/navbar.dropdown -->
+    </div><!-- /.navbar-container -->
+</div> *{头部信息-end}*
+
+
+<div class="main-container" id="main-container">
+    <script type="text/javascript">
+        try {
+            ace.settings.check('main-container', 'fixed')
+        } catch (e) {
+        }
+    </script>
+
+*{侧边菜单栏 - start}*
+    <div id="sidebar" class="sidebar responsive">
+        <script type="text/javascript">
+            try {
+                ace.settings.check('sidebar', 'fixed')
+            } catch (e) {
+            }
+        </script>
+
+    *{快捷方式 - start}*
+        <div class="sidebar-shortcuts" id="sidebar-shortcuts">
+
+        </div>*{快捷方式 - end}*
+
+        <ul class="nav nav-list">
+
+        #{get 'menu'/}
+        </ul><!-- /.nav-list -->
+
+        <!-- #section:basics/sidebar.layout.minimize -->
+        <div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
+            <i class="ace-icon fa fa-angle-double-left"
+               data-icon1="ace-icon fa fa-angle-double-left"
+               data-icon2="ace-icon fa fa-angle-double-right"></i>
+        </div>
+
+        <!-- /section:basics/sidebar.layout.minimize -->
+        <script type="text/javascript">
+            try {
+                ace.settings.check('sidebar', 'collapsed')
+            } catch (e) {
+            }
+        </script>
+    </div> *{侧边菜单栏 - end}*
+
+
+*{内容区 - start}*
+    <div class="main-content">
+        <div class="main-content-inner">
+        *{面包屑}*
+        #{get 'breadcrumbs'/}
+
+            <div class="page-content">
+            *{快捷设置栏}*
+                        #{get 'settings'/}
+
+                        *{主内容}*
+                        #{get 'content'/}
+            </div>
+
+        </div>
+    </div> *{内容区 - end}*
+
+
+*{页脚 - start}*
+    <div class="footer">
+        <div class="footer-inner">
+            <!-- #section:basics/footer -->
+            <div class="footer-content">
+                    <span class="small">
+                        <span class="blue bolder">思目投票</span> &copy; <a href="#" target="_blank">2016-2017</a>
+                    </span>
+            </div>
+            <!-- /section:basics/footer -->
+        </div>
+    </div> *{页脚 - end}*
+
+    <a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
+        <i class="ace-icon fa fa-angle-double-up icon-only bigger-200"></i>
+    </a>
+</div>
+
+</body>
+
+<script type="text/javascript">
+    if ('ontouchstart' in document.documentElement) document.write("<script src='/public/ace/js/jquery.mobile.custom.js'>" + "<" + "/script>");
+</script>
+
+<script type="text/javascript">
+    function gotoOwnerList() {
+        location.href = '/owners'
+    }
+    function gotoProjectCases() {
+        location.href = '/project/cases'
+    }
+    function gotoCommunityList() {
+        location.href = '/communities'
+    }
+    function toAddProjectCase() {
+        location.href = '/project/case/add'
+    }
+</script>
+
+<script type="text/javascript">
+    jQuery(function($){
+        $('[data-rel=tooltip]').tooltip();
+    })
+</script>
+
+#{get 'scripts'/}
+
+</html>

@@ -1,0 +1,224 @@
+#{extends 'main.html' /}
+#{set title:'优秀员工评选' /}
+
+#{set 'moreMeta'}
+<meta name="description" content="优秀员工评选"/>
+#{/set}
+
+#{set 'moreStyles'}
+
+#{/set}
+
+#{set 'moreScripts'}
+
+#{/set}
+
+
+#{set 'moreScripts'}
+
+#{/set}
+
+*{=========================================== 菜单 ========================================================}*
+#{set 'menu'}
+%{
+for (department in departments) {
+if (department.id == currentDepart.id) {
+}%
+
+<li class="highlight hover active">
+    <a href="/department/${department.id}">
+        <i class="menu-icon fa fa-tag"></i>
+        <span class="menu-text">${department.name}</span>
+    </a>
+    <b class="arrow"></b>
+</li>
+
+%{
+} else {
+}%
+<li class="highlight hover">
+    <a href="/department/${department.id}">
+        <i class="menu-icon fa fa-tag"></i>
+        <span class="menu-text">${department.name}</span>
+    </a>
+    <b class="arrow"></b>
+</li>
+%{
+}
+}
+}%
+<li class="highlight hover">
+    <a href="/department/add">
+        <i class="menu-icon fa fa-plus-circle"></i>
+        <span class="menu-text">添加部门</span>
+    </a>
+    <b class="arrow"></b>
+</li>
+
+#{/set}
+
+*{=========================================== 面包屑 ========================================================}*
+#{set 'breadcrumbs' }
+<div class="breadcrumbs" id="breadcrumbs">
+    <script type="text/javascript">
+        try {
+            ace.settings.check('breadcrumbs', 'fixed')
+        } catch (e) {
+        }
+    </script>
+    <ul class="breadcrumb">
+        <li class="active">
+            <i class="ace-icon fa fa-home home-icon"></i>
+        </li>
+        <li>
+        ${currentDepart.name}
+        </li>
+        <li>
+        投票结果统计
+        </li>
+    </ul>
+
+</div>
+#{/set}
+
+*{============================================ 主内容 =======================================================}*
+#{set 'content'}
+<div class="row">
+    <div class="col-xs-12">
+        <div class="row">
+            <div class="col-sm-10 col-sm-offset-1">
+                <div id="employee-columnar" style="width: 600px;height:400px;"></div>
+                <script type="text/javascript">
+                    // 基于准备好的dom，初始化echarts实例
+                    var columnarChart = echarts.init(document.getElementById('employee-columnar'));
+
+                    // 指定图表的配置项和数据
+                    var option = {
+                        title: {
+                            text: 'Top-10 优秀员工'
+                        },
+                        tooltip: {},
+                        legend: {
+                            data:['得票数']
+                        },
+                        xAxis: {
+                            data: []
+                        },
+                        yAxis: {},
+                        series: [{
+                            name: '得票数',
+                            type: 'bar',
+                            data: []
+                        }]
+                    };
+                    // 使用刚指定的配置项和数据显示图表。
+                    columnarChart.setOption(option);
+                    columnarChart.showLoading();
+                    $.get('/department/top10/${currentDepart.id}').done(function (data) {
+                        columnarChart.hideLoading();
+
+                        columnarChart.setOption({
+                            xAxis: {
+                                data: data.employees
+                            },
+                            series: [{
+                                name: '得票数',
+                                data: data.votes
+                            }]
+                        });
+                    });
+
+                </script>
+            </div>
+            <div class="col-xs-12">
+                <div class="hr hr-dotted"></div>
+            </div>
+            <div class="col-sm-10 col-sm-offset-1">
+                <div id="employee-pie" style="width: 600px;height:400px;"></div>
+                <script type="text/javascript">
+                    var pieChart = echarts.init(document.getElementById('employee-pie'));
+
+                    var pieOption = {
+                        title : {
+                            text: 'TOP-10 优秀员工',
+                            subtext: '纯属虚构',
+                            x:'center'
+                        },
+                        tooltip : {
+                            trigger: 'item',
+                            formatter: "{a} <br/>{b} : {c} ({d}%)"
+                        },
+                        legend: {
+                            orient: 'vertical',
+                            left: 'left',
+                            data: ['呵呵呵', '呵呵呵', '呵呵呵', '呵呵呵', '呵呵呵']
+                        },
+                        series : [
+                            {
+                                name: '得票数',
+                                type: 'pie',
+                                radius : '55%',
+                                center: ['50%', '60%'],
+                                data:[
+                                    {value:335, name:'呵呵呵'},
+                                    {value:310, name:'哈哈哈'},
+                                    {value:234, name:'呵嘿嘿'},
+                                    {value:135, name:'饿了乐乐'},
+                                    {value:1548, name:'啦啦乱'}
+                                ],
+                                itemStyle: {
+                                    emphasis: {
+                                        shadowBlur: 10,
+                                        shadowOffsetX: 0,
+                                        shadowColor: 'rgba(0, 0, 0, 0.5)'
+                                    }
+                                }
+                            }
+                        ]
+                    };
+                    pieChart.setOption(pieOption)
+                    pieChart.showLoading();
+                    $.get('/department/top10/other/${currentDepart.id}').done(function (data) {
+                        pieChart.hideLoading();
+
+                        pieChart.setOption({
+                            legend: {
+                                data: data.employees
+                            },
+                            series: [{
+                                name: '得票数',
+                                data: data.votes
+                            }]
+                        });
+                    });
+
+                </script>
+            </div>
+        </div>
+
+
+
+
+    </div>
+</div>
+
+
+#{/set}
+
+
+*{============================================== JS =====================================================}*
+#{set 'scripts'}
+<script type="text/javascript">
+    jQuery(function($){
+        //
+        $('[data-rel=tooltip]').tooltip();
+
+    })
+
+</script>
+
+<script type="text/javascript">
+
+</script>
+
+#{/set}

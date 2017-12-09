@@ -1,0 +1,42 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# Home page
+GET     /                                       Application.index
+
+# Ignore favicon requests
+GET     /favicon.ico                            404
+
+# Map static resources from the /app/public folder to the /public path
+GET     /public/                                staticDir:public
+
+# Catch all
+#*       /{controller}/{action}                  {controller}.{action}
+
+# 登录 & 登出
+GET     /login                                  Secure.login
+POST    /toLogin                                Secure.toLogin
+GET     /logout                                 Secure.logout
+
+# Department
+GET     /department/{departmentId}              DepartmentController.department
+POST    /department/add/{departmentName}        DepartmentController.departmentAdd
+POST    /department/delete/{selectDepartmentId} DepartmentController.departmentDelete
+GET     /department/chart/{departmentId}        DepartmentController.departmentChart
+
+GET     /department/top10/{departmentId}        DepartmentController.top10Employee
+GET     /department/top10/other/{departmentId}  DepartmentController.top10EmployeePieChart
+
+#Employee
+GET     /employee/add/{departmentId}            EmployeeController.employeeAdd
+GET     /employee/edit/{employeeId}             EmployeeController.employeeEdit
+
+
+POST    /employee/query/{ps}/{pn}               EmployeeController.employeeQuery
+POST    /employee/delete/{employeeId}           EmployeeController.employeeDelete
+POST    /employee/save                          EmployeeController.employeeSave
+
+# Excel 导出
+GET     /to/export/excel                        DepartmentController.exportExcel
+
